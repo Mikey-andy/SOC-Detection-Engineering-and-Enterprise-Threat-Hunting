@@ -1,0 +1,16 @@
+### **3. `Detections/Windows/Lateral_Movement_Admin_Shares.md`**
+markdown
+ Detection Rule: Lateral Movement via Administrative Shares & Net Use
+
+ Overview
+Detects potential lateral movement by internal workstations or compromised standard accounts attempting to map administrative shares (`C$`, `ADMIN$`, `IPC$`) on critical servers or domain controllers using the `net use` command-line utility (Event ID 4688).
+
+MITRE ATT&CK Mapping
+- **Tactic:** Lateral Movement (TA0008)
+- **Technique:** Remote Services: SMB/Windows Admin Shares (T1021.002)
+
+ Splunk SPL Detection Query
+spl
+index=windows EventCode=4688 
+(Process_Command_Line="*net use*" AND (Process_Command_Line="*\\C$*" OR Process_Command_Line="*\\ADMIN$*" OR Process_Command_Line="*\\IPC$*"))
+| table _time, host, Account_Name, ParentProcessName, Process_Command_Line
