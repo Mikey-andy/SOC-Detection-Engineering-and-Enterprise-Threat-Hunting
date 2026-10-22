@@ -1,3 +1,5 @@
+### **2. `Detections/Windows/Persistence_Process_Execution.md`**
+```markdown
 # Detection Rule: Web Server Process Execution & Scheduled Task Persistence
 
 ## Overview
@@ -15,8 +17,3 @@ index=windows EventCode=4688
 | search ParentProcessName="*\\w3wp*" OR ParentProcessName="*\\tomcat*" OR ParentProcessName="*\\httpd*"
 | search NewProcessName="*\\cmd.exe" OR NewProcessName="*\\powershell.exe"
 | table _time, host, Account_Name, ParentProcessName, NewProcessName, Process_Command_Line
-
-##Query 2: Scheduled Task Persistence & Payload Inspection (Event ID 4698)
-index=windows EventCode=4698 
-| stats count by host, Account_Name, Task_Name, Task_Content
-| sort - count
